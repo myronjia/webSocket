@@ -1,0 +1,34 @@
+
+server:
+  port: ${port:10010}
+  servlet:
+     context-path: /
+spring.application.name: unity-entrance-business
+#websoket的地址
+#ws://projuat.jingcaiwang.cn:10055/webSocket
+#logbook:
+#  write:
+#    level: info
+#  format:
+#    style: http
+
+spring.profiles.include:
+  - db
+  - freemarker
+  - mybatis
+  - common
+  - redis
+#  - amqp
+#  - custom
+
+spring:
+  security:
+    model: permit
+    permit:
+      - /sys/login
+      - /sys/logout
+
+
+weather:
+  appid: 98889443
+  appsecret: tJDBjP1u

@@ -1,0 +1,179 @@
+spring.profiles.active: devel
+
+
+#      defaultZone: http://192.168.101.43:20000/eureka/eureka/
+#    healthcheck:
+#      enabled: true
+#  instance:
+#    lease-renewal-interval-in-seconds: 5
+#    lease-expiration-duration-in-seconds: 10
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 60000
+
+spring.jpa.show-sql: true
+support.ip: 192.168.101.47:10001
+# logging profiles
+
+org:
+  quartz:
+    jobStore:
+      acquireTriggersWithinLock: true
+logging:
+  level:
+    root: INFO
+    com:
+      jkhl: debug
+      jkhl.supervise.springboot.support.mvc: INFO
+    org.springframework:
+      data:
+        mongodb: debug
+        mongodb.core.index: INFO
+        jpa: debug
+      boot.actuate: WARN
+      security.web: WARN
+
+spring:
+  security:
+    user:
+      name: admin
+      password: "cbpmcuxFdq_39km,@cxsZjV>jxb$eF9rwrGrcnix"
+      roles: SUPERUSER
+  flyway:
+    enabled: false
+  http:
+    multipart:
+      location: D:/test_dir/develTemp/
+
+
+---
+spring.profiles: devel
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:20000/eureka/eureka/
+
+
+system:
+  configuration:
+    upload-path: D:/test_dir/develTemp/
+    multipart-path: "D:/test_dir/develTemp/"
+    domain-name: http://localhost/
+    fastdfs-file-read-path-head: http://projtest.jingcaiwang.cn:18080/
+    supervision-inspection-default-pic: http://pocketbook.document.jingcaiwang.cn/group1/M00/00/15/rBMBKVvMGE2AUNa-AARvEA6F83U098.jpg
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 3000MB
+      maxRequestSize: 80000MB
+      location: "D:/test_dir/develTemp/"
+  data:
+    solr:
+      host: http://172.19.1.56:8983/solr
+fdfs:
+  so-timeout: 8000
+  connect-timeout: 10000
+  tracker-list:
+    - 172.19.1.56:22122   #TrackerList参数,支持多个
+---
+spring.profiles: test
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:20000/eureka/eureka/
+
+logging.file: /data/logs/unity/${spring.application.name}/application.log
+#system.configuration.upload-path: /data/upload/
+system:
+  configuration:
+    upload-path: C:/fileTemp/
+    multipart-path: C:/fileTemp/
+    domain-name: http://pocketbook.test.jingcaiwang.cn/
+    fastdfs-file-read-path-head: http://projtest.jingcaiwang.cn:18080/
+    supervision-inspection-default-pic: http://pocketbook.document.jingcaiwang.cn/group1/M00/00/15/rBMBKVvMGE2AUNa-AARvEA6F83U098.jpg
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 3000MB
+      maxRequestSize: 80000MB
+      location: C:/fileTemp/
+  data:
+    solr:
+      host: http://172.19.1.56:8983/solr/
+fdfs:
+  so-timeout: 8000
+  connect-timeout: 10000
+  tracker-list:
+    - 172.19.1.56:22122   #TrackerList参数,支持多个
+---
+spring.profiles: uat
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:20000/eureka/eureka/
+
+logging.file: /data/logs/unity/${spring.application.name}/application.log
+system:
+  configuration:
+    upload-path: /data/upload/
+    multipart-path: /data/upload/uatTemp/
+    domain-name: http://pocketbook.test.jingcaiwang.cn/
+    fastdfs-file-read-path-head: http://projuat.jingcaiwang.cn:8888/
+    supervision-inspection-default-pic: http://pocketbook.document.jingcaiwang.cn/group1/M00/00/15/rBMBKVvMGE2AUNa-AARvEA6F83U098.jpg
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 3000MB
+      maxRequestSize: 80000MB
+      location: /data/upload/uatTemp/
+  data:
+    solr:
+      host: http://172.19.1.56:8983/solr/search_core
+fdfs:
+  so-timeout: 800000
+  connect-timeout: 1000000
+  tracker-list:
+    - 172.19.1.56:22122   #TrackerList参数,支持多个
+---
+spring.profiles: prod
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:20000/eureka/eureka/
+
+logging.file: /data/logs/unity/${spring.application.name}/application.log
+system:
+  configuration:
+    upload-path: /data/upload/
+    multipart-path: /data/upload/prodTemp/
+    domain-name: http://zhgc.bdagroup.com.cn/
+    fastdfs-file-read-path-head: http://zhgc.bdagroup.com.cn/
+    supervision-inspection-default-pic: http://zhgc.bdagroup.com.cn/group1/M00/00/15/rBMBKVvMGE2AUNa-AARvEA6F83U098.jpg
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 3000MB
+      maxRequestSize: 80000MB
+      location: /data/upload/prodTemp/
+  data:
+    solr:
+      host: http://192.168.101.44:8983/solr/search_core
+fdfs:
+  so-timeout: 8000
+  connect-timeout: 10000
+  tracker-list:
+    - 192.168.2.62:22122   #TrackerList参数,支持多个
+---
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8

@@ -1,0 +1,304 @@
+
+<#include "/comm/head.html">
+<body>
+<style>
+    .el-header .el-input__inner{ width:140px; }
+    .el-date-editor { width:140px !important; }
+    .el-header{
+        padding: 0 5px;
+    }
+    .el-main {
+        padding: 0px;
+        margin: 0px;
+        overflow:visible !important;
+    }
+    .diy_el-input__inner .el-input__inner{
+        width: 110px;
+    }
+</style>
+<div id="app">
+<el-container>
+    <el-header style="height:auto;">
+
+        <div  style="height:130px;padding-top: 15px;">
+
+
+            <el-form :inline="true" label-width="100px" >
+                <el-row>
+
+                    <el-col :span="5">
+                        <el-form-item label="姓名">
+                            <el-input style="wdith:60px"  v-model="search.name.data" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="公司">
+                            <el-input style="wdith:60px"  v-model="search.department.data" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="人员类型">
+                            <el-input style="wdith:60px"  v-model="search.personType.data" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="是否高危" prop="isFlag">
+                            <el-select v-model="search.isFlag.data">
+                                <el-option v-for="(item, index) in flagList" :key="item.value" :value="item.id" :label="item.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="是否允许" prop="isAdmittance">
+                            <el-select v-model="search.isAdmittance.data" class="diy_el-input__inner">
+                                <el-option style="width: 110px;" v-for="(item, index) in admittanceList" :key="item.value" :value="item.id" :label="item.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                    </el-col>
+
+                    <el-col :span="5">
+                        <el-form-item label="是否刷证" prop="isCard">
+                            <el-select v-model="search.isCard.data">
+                                <el-option v-for="(item, index) in cardList" :key="item.value" :value="item.id" :label="item.name"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="9">
+                        <el-form-item label="刷证时间">
+                            <el-date-picker   style="wdith:80px"
+                                              v-model="search.gmtModified[0].data"
+                                              type="date"
+                                              format="yyyy-MM-dd"
+                                              value-format="yyyy-MM-dd"
+                                              placeholder="请选择日期">
+                            </el-date-picker> 至
+                            <el-date-picker    style="wdith:80px"
+                                               v-model="search.gmtModified[1].data"
+                                               type="date"
+                                               format="yyyy-MM-dd"
+                                               value-format="yyyy-MM-dd 23:59:59.999"
+                                               placeholder="请选择日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+
+
+                    <el-col :span="9">
+                        <el-button-group>
+                            <el-tooltip  class="item" effect="dark" content="添加" placement="bottom">
+                                <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd()"></el-button>
+                            </el-tooltip>
+                            <el-tooltip  class="item" effect="dark" content="批量删除" placement="bottom">
+                                <el-button type="primary" icon="el-icon-delete" @click="handleDelBatch()"></el-button>
+                            </el-tooltip>
+
+                            <el-tooltip  class="item" effect="dark" content="搜索" placement="bottom">
+                                <el-button type="primary" icon="el-icon-search" @click="handleSearch()"></el-button>
+                            </el-tooltip>
+                            <el-tooltip  class="item" effect="dark" content="清空" placement="bottom">
+                                <el-button type="primary" icon="fa fa-repeat" @click="handleReset()"></el-button>
+                            </el-tooltip>
+                            <el-dropdown  @command="handleCommand">
+                                <el-button type="primary">
+                                    更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                                </el-button>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item command="one">导出今天</el-dropdown-item>
+                                    <el-dropdown-item command="two">导出昨天</el-dropdown-item>
+                                    <el-dropdown-item command="three">导出前天</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                            <el-tooltip  class="item" effect="dark" content="导出" placement="bottom">
+                                <el-button type="primary" icon="el-icon-download" @click="handleExport()"></el-button>
+                            </el-tooltip>
+                            <el-tooltip  class="item" effect="dark" content="导入" placement="bottom">
+                                <el-button type="primary" icon="fa fa-file-excel-o" @click="handleImport('${iframe}',0)"></el-button>
+                            </el-tooltip>
+                        </el-button-group>
+                    </el-col>
+                </el-row>
+
+
+                <!--<el-form-item label="身份证">
+                    <el-input style="wdith:60px"  v-model="search.identityInformationNumber.data" placeholder="请输入内容"></el-input>
+                </el-form-item>-->
+
+
+
+
+
+            </el-form>
+        </div>
+    </el-header>
+    <el-main>
+            <el-table
+                    :data="tableData"
+                    style='width:100%;'
+                    :height="tableHeight"
+                    @selection-change="handleSelectionChange"
+                    border>
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
+                <el-table-column
+                        type="index"
+                        label="序号"
+                        width="50">
+                </el-table-column>
+                <el-table-column
+                        prop='department'
+                        label="公司名称">
+                </el-table-column>
+                <el-table-column
+                        prop='roomNumber'
+                        label="房间号"  width="70">
+                </el-table-column>
+                <el-table-column
+                        prop='name'
+                        label="姓名"  width="70">
+                </el-table-column>
+                <el-table-column
+                        prop='identityInformationNumber'
+                        label="身份证"   width="170">
+                </el-table-column>
+                <el-table-column
+                        prop='phone'
+                        label="联系电话"  width="115">
+                </el-table-column>
+                <el-table-column
+                        prop='companyContacts'
+                        label="负责人"  width="70">
+                </el-table-column>
+
+                <el-table-column
+                        prop='companyContactsPhone'
+                        label="负责人电话"  width="115">
+                </el-table-column>
+                <el-table-column
+                        prop='enterTimeTitle'
+                        label="进京时间"  width="100">
+                </el-table-column>
+                <el-table-column
+                        prop='isFlagTitle'
+                        label="高危否"  width="70">
+                </el-table-column>
+
+                <el-table-column
+                        prop='isAdmittanceTitle'
+                        label="允许否"  width="70">
+                </el-table-column>
+                <el-table-column
+                        prop='personType'
+                        label="人员类型"  width="90">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="180">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="small"
+                                type="text"
+                                @click="handleSwipe(scope.$index, scope.row)">刷证记录</el-button>
+
+                        <el-button
+                                size="small"
+                                type="text"
+                                @click="handleDel(scope.$index, scope.row)">删除</el-button>
+
+                        <el-button
+                                size="small"
+                                type="text"
+                                @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <div align="center">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="pagesize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalCount">
+                </el-pagination>
+            </div>
+    </el-main>
+</el-container>
+</div>
+
+<#include "/comm/js.html">
+
+<script type="text/javascript">
+
+    var vue = loadTable({
+            data:{
+                button:${button},
+                search:{
+                    name:{op:"cn",data:""}
+                    ,identityInformationNumber:{op:"cn",data:""}
+                    ,department:{op:"cn",data:""}
+                    ,isFlag:{op:"eq",data:""}
+                    ,isAdmittance:{op:"eq",data:""}
+                    ,isCard:{op:"eq",data:""}
+                    ,gmtModified:[{op:"ge",data:""},{op:"le",data:""}]
+                    ,personType:{op:"cn",data:""}
+                },
+                flagList:[
+                    {id:'',name:'全部'}
+                    ,{id:'1',name:'是'}
+                    ,{id:'0',name:'否'}
+                ]
+                ,admittanceList:[
+                    {id:'',name:'全部'}
+                    ,{id:'1',name:'是'}
+                    ,{id:'0',name:'否'}
+                ],
+                cardList:[
+                    {id:'',name:'全部'}
+                    ,{id:'1',name:'刷证'}
+                    ,{id:'0',name:'未刷证'}
+                ],
+            },
+            urlList:"${base}/identityinformation/listByPage",
+            urlDel:"${base}/identityinformation/del/",
+            urlEdit:"${base}/identityinformation/view/editEntrance/${iframe}",
+            urlChangeOrder:"${base}/identityinformation/changeOrder",
+            urlExport:"${base}/identityinformation/export/excel",
+            urlImport:"${base}/identityinformation/importExcel",
+            dialogWidth:1000,
+            dialogHeight:500,
+            title:'身份信息',
+            dialogIndex:0,
+            tableHeight:window.innerHeight-200,
+            methods:{
+                handleSwipe(index,row){
+                    v.dialogShow(this.getDialogIndex(),{title:'刷证列表',
+                        url:"${base}/identityswipe/view/moduleEntrance/main?idIdentityInformation="+ row.id,
+                        width:800,height:400});
+
+
+                },
+                handleCommand(command) {
+                    let urlExport = "${base}/identityinformation/export/excelOne";
+                    let cond = JSON.stringify(search2Cond(this.search, "AND"));
+                    let tempUrl = encodeURI(urlExport+"?cond="+cond+"&paraDay="+command+"&timeStamp="+new Date());
+                    //v.export(urlExport+"?d="+new Date()+"&cond="+cond);
+                    v.export(tempUrl);
+                },
+
+            }
+        });
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+#eureka part
+
+spring.datasource.username: root
+
+spring:
+  rabbitmq:
+    username: guest
+    publisher-confirms: true
+    virtual-host: /
+---
+spring.profiles: devel
+spring:
+  rabbitmq:
+    host: 192.168.101.44
+    password: admin
+
+---
+spring.profiles: test
+spring:
+  rabbitmq:
+    host: 192.168.101.44
+    password: admin
+
+---
+spring.profiles: uat
+spring:
+  rabbitmq:
+    host: 192.168.101.44
+    password: admin
+
+---
+spring.profiles: prod
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    password: guest

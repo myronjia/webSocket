@@ -1,0 +1,83 @@
+group 'com.jkhl'
+version '1.0.0.SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: '2.0.2.RELEASE'
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+apply from: "config.gradle"
+
+repositories {
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+    mavenLocal()
+}
+
+
+sourceCompatibility = 1.8
+
+subprojects {
+    group 'com.jkhl'
+    version '1.0.0.SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RC1'
+        }
+    }
+
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url 'http://172.16.20.25:8081/repository/3rd/' }
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies{
+        compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+        compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+        compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+
+    }
+
+    def projName = it.project.name
+    def packageName = projName.replaceAll("[-_]", "")
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java']
+            }
+            resources {
+                srcDirs = ['src/main/resources', 'src/main/java',]
+                excludes = ['**／*.java']
+            }
+        }
+    }
+
+    compileJava.dependsOn(processResources)
+
+
+}

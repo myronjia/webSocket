@@ -1,0 +1,132 @@
+spring:
+  profiles: devel
+  datasource:
+    master:
+      url: jdbc:mysql://82.156.106.160:3306/webSocket?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: NoPassword_4Mysql
+      driver-class-name: com.mysql.jdbc.Driver
+    slave:
+      url: jdbc:mysql://172.19.1.81:3306/unity-business-ia?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: NoPassword4Mysql!
+      driver-class-name: com.mysql.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://172.19.1.82:27017/wisdom_proj
+---
+spring:
+  profiles: test
+  datasource:
+    master:
+      url: jdbc:mysql://127.0.0.1:3306/unity-business-ia?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: NoPassword4Mysql
+      driver-class-name: com.mysql.jdbc.Driver
+    slave:
+        url: jdbc:mysql://127.0.0.1:3306/unity-business-ia?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: NoPassword4Mysql
+        driver-class-name: com.mysql.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://assetcenter:as(setcent)er2019@172.19.1.60:27017/AssetCenter
+---
+spring:
+  profiles: uat
+  datasource:
+    master:
+      url: jdbc:mysql://172.16.20.14:3306/unity-business-ia?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: NoPassword4Mysql!
+      driver-class-name: com.mysql.jdbc.Driver
+    slave:
+      url: jdbc:mysql://172.16.20.14:3306/unity-business-ia?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: NoPassword4Mysql!
+      driver-class-name: com.mysql.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://172.16.20.14:27017/wisdom_proj
+---
+spring:
+  profiles: prod
+  datasource:
+    master:
+      url: jdbc:mysql://127.0.0.1:3306/${spring.application.name}?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root1
+      password: NoPassword4Mysql
+      driver-class-name: com.mysql.jdbc.Driver
+    slave:
+        url: jdbc:mysql://127.0.0.1:3306/unity-business-ia?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: NoPassword4Mysql
+        driver-class-name: com.mysql.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://proj:as(proj)er2019@192.168.2.61:27017/projectManager
+
+
+#spring:
+#  profiles: devel
+#  #primary
+#  primary:
+#    datasource:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      jdbc-url: jdbc:mysql://127.0.0.1:3306/${spring.application.name}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT
+#      username: root
+#      password: 123456
+#
+#  jpa:
+#    hibernate:
+#      primary-dialect: org.hibernate.dialect.MySQL5Dialect
+#    open-in-view: true
+#    show-sql: true
+#---
+#spring:
+#  profiles: test
+#  #primary
+#  primary:
+#    datasource:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.101.43:3306/${spring.application.name}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT
+#      username: root
+#      password: NoPassword4Mysql!
+#
+#  jpa:
+#    hibernate:
+#      primary-dialect: org.hibernate.dialect.MySQL5Dialect
+#    open-in-view: true
+#    show-sql: true
+#---
+#spring:
+#  profiles: uat
+#  #primary
+#  primary:
+#    datasource:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.101.51:3306/${spring.application.name}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT
+#      username: root
+#      password: NoPassword4Mysql!
+#
+#  jpa:
+#    hibernate:
+#      primary-dialect: org.hibernate.dialect.MySQL5Dialect
+#    open-in-view: true
+#    show-sql: true
+#---
+#spring:
+#  profiles: prod
+#  #primary
+#  primary:
+#    datasource:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.101.50:3306/${spring.application.name}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT
+#      username: root
+#      password: NoPassword4Mysql!
+#
+#  jpa:
+#    hibernate:
+#      primary-dialect: org.hibernate.dialect.MySQL5Dialect
+#    open-in-view: true
+#    show-sql: true
