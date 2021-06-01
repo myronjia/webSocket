@@ -1,0 +1,8 @@
+
+server:
+  port: ${port:10010}
+  servlet:
+     context-path: /
+spring.application.name: webSocket-business
+#websoket的地址
+#ws://localhost:10010/webSocket

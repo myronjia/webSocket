@@ -1,0 +1,20 @@
+spring.profiles.active: devel
+
+logging:
+  level:
+    root: INFO
+    com:
+      jkhl: debug
+      jkhl.supervise.springboot.support.mvc: INFO
+    org.springframework:
+      data:
+        mongodb: debug
+        mongodb.core.index: INFO
+        jpa: debug
+      boot.actuate: WARN
+      security.web: WARN
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8

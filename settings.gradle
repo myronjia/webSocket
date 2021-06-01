@@ -1,4 +1,4 @@
-rootProject.name = 'unity-entrance'
-include 'unity-entrance-cfg'
-include 'unity-entrance-business'
+rootProject.name = 'webSocket'
+include 'webSocket-cfg'
+include 'webSocket-business'
 

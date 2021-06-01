@@ -46,7 +46,7 @@ subprojects {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url "https://repo.spring.io/milestone" }
-        maven { url 'http://172.16.20.25:8081/repository/3rd/' }
+//        maven { url 'http://172.16.20.25:8081/repository/3rd/' }
         mavenCentral()
         mavenLocal()
     }
@@ -55,7 +55,11 @@ subprojects {
         compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
         compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
         compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
-
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+        compileOnly group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.2.10.RELEASE'
+        compile 'com.alibaba:druid-spring-boot-starter:1.1.9'
+        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
     }
 
     def projName = it.project.name
